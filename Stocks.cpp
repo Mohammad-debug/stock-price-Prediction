@@ -26,6 +26,17 @@ void print_grid(vector<vector<int>> grid)
     }
     cout << "\n";
 }
+void print()
+{
+    cout << "Maximum profit: ";    //
+    cout << answer.profit << "\n"; //
+    cout << "Stock: ";
+    cout << answer.stockNumber << "\n";
+    cout << "Buy on day: ";
+    cout << answer.buyDay << "\n";
+    cout << "Sell on day: ";
+    cout << answer.sellDay << "\n";
+}
 
 void bruteforce_find_stock(int stockNumber, vector<int> stocks)
 {
@@ -82,13 +93,22 @@ void greedy_find_stock(int stockNumber, vector<int> stocks)
 
 void dp_find_stock(int stockNumber, vector<int> stocks)
 {
-    vector<pair<int, int>> dp(stocks.size());
-    dp[0].first = stocks[0], dp[0].second = 0;
-    int res = 0;
+    vector<int> dp(stocks.size());
+    dp[0]= stocks[0]; // first: profit at index i, second: index of min element;
+    int buyDayIndex = 0, minStockPriceSorFar=stocks[0];
 
     for (int i = 1; i < stocks.size(); i++)
     {
-        int currentProfit = max(stocks[i] -, answer.profit);
+        int currentProfit = stocks[i] - stocks[buyDayIndex];
+        dp[i] = max(currentProfit, dp[i-1]); //Either take the cuurent answer or take the previous best answer
+
+        if (answer.profit < dp[i])
+        {
+            answer.stockNumber = stockNumber;
+            answer.buyDay = buyDayIndex;
+            answer.sellDay = i; // sell day index;
+            answer.profit = dp[i];
+        }
 
         if (minStockPriceSorFar > stocks[i])
         {
@@ -97,13 +117,7 @@ void dp_find_stock(int stockNumber, vector<int> stocks)
         }
     }
 
-    if (answer.profit < currentProfit)
-    {
-        answer.stockNumber = stockNumber;
-        answer.buyDay = buyDayIndex;
-        answer.sellDay = i; // sell day index;
-        answer.profit = currentProfit;
-    }
+
 }
 
 //Debug
@@ -135,23 +149,13 @@ void problem1c(vector<vector<int>> grid)
     int m = grid.size();
     for (int i = 0; i < m; i++)
     {
-        bruteforce_find_stock(i, grid[i]);
+        dp_find_stock(i, grid[i]);
     }
 
     print();
 }
 
-void print()
-{
-    cout << "Maximum profit: ";    //
-    cout << answer.profit << "\n"; //
-    cout << "Stock: ";
-    cout << answer.stockNumber << "\n";
-    cout << "Buy on day: ";
-    cout << answer.buyDay << "\n";
-    cout << "Sell on day: ";
-    cout << answer.sellDay << "\n";
-}
+
 
 void solve()
 {
@@ -171,7 +175,7 @@ void solve()
     // 1 2 3
     // 4 5 6
     // 7 8 9
-    problem1b(grid);
+    problem1c(grid);
 }
 
 int main()
