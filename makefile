@@ -6,5 +6,5 @@ compile : Stocks.cpp
 
 
 clean:
-	rm -rvf *.o
+	rm -rvf Stocks
 	
