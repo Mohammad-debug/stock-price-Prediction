@@ -1,7 +1,7 @@
 all: compile
 
 compile : Stocks.cpp
-	gcc -o Stocks Stocks.cpp 
+	g++ -o Stocks Stocks.cpp 
 	
 
 
