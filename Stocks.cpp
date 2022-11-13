@@ -148,7 +148,6 @@ int topdown_dp_find_stock(int stockNumber, vector<int> &prices, vector<int> &mem
     return memo[i];
 }
 
-
 //Debug
 
 void problem1(vector<vector<int>> grid)
@@ -191,27 +190,58 @@ void problem3b(vector<vector<int>> grid)
     }
     print();
 }
-void solve()
+void getInput(vector<vector<int>> &grid)
 {
     int m, n;
     cin >> m >> n; // number of stocks and no of days
-    vector<vector<int>> grid(m, vector<int>(n, 0));
-
-    for (int i = 0; i < m; i++)
+    vector<vector<int>> matrix(m, vector<int>(n, 0));
+    for (int i = 0; i < matrix.size(); i++)
     {
-        for (int j = 0; j < n; j++)
+        for (int j = 0; j < matrix[i].size(); j++)
         {
-            cin >> grid[i][j];
+            cin >> matrix[i][j];
         }
     }
 
-    problem3b(grid);
+    grid=matrix;
 }
 
-int main()
+void solve(string mode)
 {
+    vector<vector<int>> grid;
 
-    solve();
+    if (mode == "1")
+    {
+        getInput(grid);
+        problem1(grid);
+    }
+    else if (mode == "2")
+    {
+        getInput(grid);
+        problem2(grid);
+    }
+    else if (mode == "3a")
+    {
+        getInput(grid);
+        problem3a(grid);
+    }
+    else if (mode == "3b")
+    {
+        getInput(grid);
+        problem3b(grid);
+    }
+    else
+    {
+        cout << "Invalid input: ./Stocks <problem number>\n";
+    }
+}
+
+int main(int argc, char *argv[])
+{
+    string mode;
+    mode = argv[1];
+    cout <<"Question: "<< mode << "\n";
+    solve(mode);
 
     return 0;
 }
