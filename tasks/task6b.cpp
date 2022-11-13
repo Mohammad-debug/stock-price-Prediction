@@ -8,14 +8,14 @@
  *
  *  [Hint :- Try to solve for k = 2 first and then expand that solution.]
  *
- *  [Alg 5.]
+ *  [Alg 6.]
  *
- *  Design a Θ(m * n^2 * k) time dynamic programming algorithm for solving
+ *  Design a Θ(m * n * k) time dynamic programming algorithm for solving
  *  Problem 2.
  *
- *  [Task 5.]
+ *  [Task 6B.]
  *
- *  Give an implementation of Alg 5.
+ *  Give an iterative BottomUp implementation of Alg 6.
  *
  */
 
@@ -43,6 +43,7 @@ int maxProfitsFromkTransactions(vector<vector<int>>& stocks, int k) {
     dp[0][i] = 0;
 
   for (int t = 1; t <= k; t++) {
+    vector<int> prevDiff(m, INT_MIN);
     for (int i = 1; i < n; i++) {
       // Either no transaction on day i or we sell some stock on day i and buy
       // it on some prior day j. We require the maximum of such transaction
@@ -50,10 +51,8 @@ int maxProfitsFromkTransactions(vector<vector<int>>& stocks, int k) {
       int maxPossibleProfit = INT_MIN;
 
       for (int s = 0; s < m; s++) {
-        for (int j = 0; j < i; j++) {
-          int currProfit = stocks[s][i] - stocks[s][j] + dp[t - 1][j];
-          maxPossibleProfit = max(maxPossibleProfit, currProfit);
-        }
+        prevDiff[s] = max(prevDiff[s], dp[t - 1][i - 1] - stocks[s][i - 1]);
+        maxPossibleProfit = max(maxPossibleProfit, stocks[s][i] + prevDiff[s]);
       }
 
       dp[t][i] = max(dp[t][i - 1], maxPossibleProfit);
