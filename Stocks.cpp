@@ -69,7 +69,7 @@ void greedy_find_stock(int stockNumber, vector<int> stocks)
     {
         // By Greedy, keep finding the minimum value of stock;
         // We are going to buy this minimum value stock :)
-        if (minStockPriceSorFar > stocks[i]) 
+        if (minStockPriceSorFar > stocks[i])
         {
             buyDayIndex = i; // we keep the buy day index as min stock price index so far;
             minStockPriceSorFar = stocks[i];
@@ -91,16 +91,16 @@ void greedy_find_stock(int stockNumber, vector<int> stocks)
     }
 }
 
-void dp_find_stock(int stockNumber, vector<int> stocks)
+void bottomup_dp_find_stock(int stockNumber, vector<int> stocks)
 {
     vector<int> dp(stocks.size());
-    dp[0]= stocks[0]; // first: profit at index i, second: index of min element;
-    int buyDayIndex = 0, minStockPriceSorFar=stocks[0];
+    dp[0] = stocks[0]; // first: profit at index i, second: index of min element;
+    int buyDayIndex = 0, minStockPriceSorFar = stocks[0];
 
     for (int i = 1; i < stocks.size(); i++)
     {
         int currentProfit = stocks[i] - stocks[buyDayIndex];
-        dp[i] = max(currentProfit, dp[i-1]); //Either take the cuurent answer or take the previous best answer
+        dp[i] = max(currentProfit, dp[i - 1]); //Either take the cuurent answer or take the previous best answer
 
         if (answer.profit < dp[i])
         {
@@ -116,13 +116,42 @@ void dp_find_stock(int stockNumber, vector<int> stocks)
             minStockPriceSorFar = stocks[i];
         }
     }
-
-
 }
+
+int topdown_dp_find_stock(int stockNumber, vector<int> &prices, vector<int> &memo, int i, int minStockPriceSorFar, int buyDayIndex)
+{
+    if (i >= prices.size())
+    {
+        return 0;
+    }
+    if (memo[i] != -1)
+    {
+        return memo[i];
+    }
+    if (prices[i] < minStockPriceSorFar)
+    {
+        minStockPriceSorFar = prices[i];
+        buyDayIndex = i;
+    }
+
+    int curentProfit = prices[i] - minStockPriceSorFar;
+    memo[i] = max(curentProfit, topdown_dp_find_stock(stockNumber, prices, memo, i + 1, minStockPriceSorFar, buyDayIndex));
+
+    if (answer.profit < memo[i])
+    {
+        answer.stockNumber = stockNumber;
+        answer.buyDay = buyDayIndex;
+        answer.sellDay = i; // sell day index;
+        answer.profit = memo[i];
+    }
+
+    return memo[i];
+}
+
 
 //Debug
 
-void problem1a(vector<vector<int>> grid)
+void problem1(vector<vector<int>> grid)
 {
     int m = grid.size();
     for (int i = 0; i < m; i++)
@@ -132,8 +161,7 @@ void problem1a(vector<vector<int>> grid)
 
     print();
 }
-
-void problem1b(vector<vector<int>> grid)
+void problem2(vector<vector<int>> grid)
 {
     int m = grid.size();
     for (int i = 0; i < m; i++)
@@ -143,20 +171,26 @@ void problem1b(vector<vector<int>> grid)
 
     print();
 }
-
-void problem1c(vector<vector<int>> grid)
+void problem3a(vector<vector<int>> grid)
 {
     int m = grid.size();
     for (int i = 0; i < m; i++)
     {
-        dp_find_stock(i, grid[i]);
+        bottomup_dp_find_stock(i, grid[i]);
     }
 
     print();
 }
-
-
-
+void problem3b(vector<vector<int>> grid)
+{
+    vector<int> memo(grid[0].size(), -1);
+    for (int i = 0; i < grid.size(); i++)
+    {
+        vector<int> memo(grid[i].size(), -1);
+        topdown_dp_find_stock(i, grid[i], memo, 0, grid[i][0], 0);
+    }
+    print();
+}
 void solve()
 {
     int m, n;
@@ -171,11 +205,7 @@ void solve()
         }
     }
 
-    // print_grid(grid);//debug
-    // 1 2 3
-    // 4 5 6
-    // 7 8 9
-    problem1c(grid);
+    problem3b(grid);
 }
 
 int main()
