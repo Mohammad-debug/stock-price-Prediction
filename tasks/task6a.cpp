@@ -22,7 +22,11 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int opt(int t, int i, vector<vector<int>>& dp, vector<vector<int>>& stocks) {
+int opt(int t,
+        int i,
+        vector<vector<int>>& dp,
+        vector<vector<int>>& stocks,
+        vector<vector<int>>& prevDiff) {
   // Regardless of the number of transactions, there is no
   // profit to be made on the first day.
 
@@ -39,17 +43,18 @@ int opt(int t, int i, vector<vector<int>>& dp, vector<vector<int>>& stocks) {
     return dp[t][i];
 
   int m = stocks.size();
-  vector<int> prevDiff(m, INT_MIN);
-
   int maxPossibleProfit = INT_MIN;
 
+  dp[t][i] = opt(t, i - 1, dp, stocks, prevDiff);
+
   for (int s = 0; s < m; s++) {
-    prevDiff[s] =
-        max(prevDiff[s], opt(t - 1, i - 1, dp, stocks) - stocks[s][i - 1]);
-    maxPossibleProfit = max(maxPossibleProfit, stocks[s][i] + prevDiff[s]);
+    prevDiff[t][s] =
+        max(prevDiff[t][s],
+            opt(t - 1, i - 1, dp, stocks, prevDiff) - stocks[s][i - 1]);
+    maxPossibleProfit = max(maxPossibleProfit, stocks[s][i] + prevDiff[t][s]);
   }
 
-  dp[t][i] = max(opt(t, i - 1, dp, stocks), maxPossibleProfit);
+  dp[t][i] = max(dp[t][i], maxPossibleProfit);
 
   return dp[t][i];
 }
@@ -59,9 +64,12 @@ int maxProfitsFromkTransactions(vector<vector<int>>& stocks, int k) {
     return 0;
 
   int n = stocks[0].size();
+  int m = stocks.size();
+
+  vector<vector<int>> prevDiff(k + 1, vector<int>(m, INT_MIN));
   vector<vector<int>> dp(k + 1, vector<int>(n, -1));
 
-  return opt(k, n - 1, dp, stocks);
+  return opt(k, n - 1, dp, stocks, prevDiff);
 }
 
 int main() {
