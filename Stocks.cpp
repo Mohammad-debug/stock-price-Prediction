@@ -37,7 +37,6 @@ void print()
     cout << "Sell on day: ";
     cout << answer.sellDay << "\n";
 }
-
 void bruteforce_find_stock(int stockNumber, vector<int> stocks)
 {
     int n = stocks.size();
@@ -61,7 +60,6 @@ void bruteforce_find_stock(int stockNumber, vector<int> stocks)
         }
     }
 }
-
 void greedy_find_stock(int stockNumber, vector<int> stocks)
 {
     int minStockPriceSorFar = stocks[0], buyDayIndex = 0, res = 0;
@@ -90,7 +88,6 @@ void greedy_find_stock(int stockNumber, vector<int> stocks)
         }
     }
 }
-
 void bottomup_dp_find_stock(int stockNumber, vector<int> stocks)
 {
     vector<int> dp(stocks.size());
@@ -117,10 +114,9 @@ void bottomup_dp_find_stock(int stockNumber, vector<int> stocks)
         }
     }
 }
-
-int topdown_dp_find_stock(int stockNumber, vector<int> &prices, vector<int> &memo, int i, int minStockPriceSorFar, int buyDayIndex)
+int topdown_dp_find_stock(int stockNumber, vector<int> stocks, vector<int> &memo, int i, int minStockPriceSorFar, int buyDayIndex)
 {
-    if (i >= prices.size())
+    if (i >= stocks.size())
     {
         return 0;
     }
@@ -128,14 +124,14 @@ int topdown_dp_find_stock(int stockNumber, vector<int> &prices, vector<int> &mem
     {
         return memo[i];
     }
-    if (prices[i] < minStockPriceSorFar)
+    if (stocks[i] < minStockPriceSorFar)
     {
-        minStockPriceSorFar = prices[i];
+        minStockPriceSorFar = stocks[i];
         buyDayIndex = i;
     }
 
-    int curentProfit = prices[i] - minStockPriceSorFar;
-    memo[i] = max(curentProfit, topdown_dp_find_stock(stockNumber, prices, memo, i + 1, minStockPriceSorFar, buyDayIndex));
+    int curentProfit = stocks[i] - minStockPriceSorFar;
+    memo[i] = max(curentProfit, topdown_dp_find_stock(stockNumber, stocks, memo, i + 1, minStockPriceSorFar, buyDayIndex));
 
     if (answer.profit < memo[i])
     {
@@ -147,8 +143,6 @@ int topdown_dp_find_stock(int stockNumber, vector<int> &prices, vector<int> &mem
 
     return memo[i];
 }
-
-//Debug
 
 void problem1(vector<vector<int>> grid)
 {
@@ -170,7 +164,7 @@ void problem2(vector<vector<int>> grid)
 
     print();
 }
-void problem3a(vector<vector<int>> grid)
+void problem3b(vector<vector<int>> grid)
 {
     int m = grid.size();
     for (int i = 0; i < m; i++)
@@ -180,7 +174,7 @@ void problem3a(vector<vector<int>> grid)
 
     print();
 }
-void problem3b(vector<vector<int>> grid)
+void problem3a(vector<vector<int>> grid)
 {
     vector<int> memo(grid[0].size(), -1);
     for (int i = 0; i < grid.size(); i++)
@@ -190,7 +184,7 @@ void problem3b(vector<vector<int>> grid)
     }
     print();
 }
-void getInput(vector<vector<int>> &grid)
+void getInputQ1(vector<vector<int>> &grid)
 {
     int m, n;
     cin >> m >> n; // number of stocks and no of days
@@ -212,22 +206,22 @@ void solve(string mode)
 
     if (mode == "1")
     {
-        getInput(grid);
+        getInputQ1(grid);
         problem1(grid);
     }
     else if (mode == "2")
     {
-        getInput(grid);
+        getInputQ1(grid);
         problem2(grid);
     }
     else if (mode == "3a")
     {
-        getInput(grid);
+        getInputQ1(grid);
         problem3a(grid);
     }
     else if (mode == "3b")
     {
-        getInput(grid);
+        getInputQ1(grid);
         problem3b(grid);
     }
     else
