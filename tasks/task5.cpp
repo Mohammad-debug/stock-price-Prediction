@@ -1,3 +1,6 @@
+#include <bits/stdc++.h>
+using namespace std;
+
 /**
  *
  *  [Problem 2.]
@@ -19,23 +22,18 @@
  *
  */
 
-#include <bits/stdc++.h>
-using namespace std;
-
-class answerClass
-{
-public:
-  int stockNumber = 0; // 0 to m
-  int buyDay = 0;      // 0 to n
-  int sellDay = 0;     // 0 to n
+class answerClass {
+ public:
+  int stockNumber = 0;  // 0 to m
+  int buyDay = 0;       // 0 to n
+  int sellDay = 0;      // 0 to n
   int profit = INT_MIN;
   vector<answerClass> transactions;
 };
 vector<answerClass> ans;
-void print(answerClass answer)
-{
-  cout << "Maximum profit: ";    //
-  cout << answer.profit << "\n"; //
+void print(answerClass answer) {
+  cout << "Maximum profit: ";     //
+  cout << answer.profit << "\n";  //
   cout << "Stock: ";
   cout << answer.stockNumber << "\n";
   cout << "Buy on day: ";
@@ -43,8 +41,7 @@ void print(answerClass answer)
   cout << "Sell on day: ";
   cout << answer.sellDay << "\n\n";
 }
-answerClass maxProfitsFromkTransactions(vector<vector<int>> &stocks, int k)
-{
+answerClass maxProfitsFromkTransactions(vector<vector<int>>& stocks, int k) {
   // if (stocks.size() == 0)
   //   return vector<vector<answerClass>>(0, vector<answerClass>(0));
 
@@ -64,25 +61,20 @@ answerClass maxProfitsFromkTransactions(vector<vector<int>> &stocks, int k)
   for (int i = 0; i < n; i++)
     dp[0][i].profit = 0;
 
-  for (int t = 1; t <= k; t++)
-  {
+  for (int t = 1; t <= k; t++) {
     answerClass answer;
-    for (int i = 1; i < n; i++)
-    {
+    for (int i = 1; i < n; i++) {
       // Either no transaction on day i or we sell some stock on day i and buy
       // it on some prior day j. We require the maximum of such transaction
 
       int maxPossibleProfit = INT_MIN;
 
-      for (int s = 0; s < m; s++)
-      {
-        for (int j = 0; j < i; j++)
-        {
+      for (int s = 0; s < m; s++) {
+        for (int j = 0; j < i; j++) {
           int currProfit = stocks[s][i] - stocks[s][j] + dp[t - 1][j].profit;
           // maxPossibleProfit = max(maxPossibleProfit, currProfit);
 
-          if (maxPossibleProfit < currProfit)
-          {
+          if (maxPossibleProfit < currProfit) {
             answer.stockNumber = s;
             answer.buyDay = j;
             answer.sellDay = i;
@@ -95,9 +87,9 @@ answerClass maxProfitsFromkTransactions(vector<vector<int>> &stocks, int k)
         }
       }
 
-      //dp[t][i].profit = max(dp[t][i - 1].profit, maxPossibleProfit); // we dont do anything on
-      if (dp[t][i - 1].profit > maxPossibleProfit)
-      {
+      // dp[t][i].profit = max(dp[t][i - 1].profit, maxPossibleProfit); // we
+      // dont do anything on
+      if (dp[t][i - 1].profit > maxPossibleProfit) {
         dp[t][i] = dp[t - 1][i];
       }
     }
@@ -112,17 +104,16 @@ answerClass maxProfitsFromkTransactions(vector<vector<int>> &stocks, int k)
   return dp[k][n - 1];
 }
 
-int main()
-{
-  vector<vector<int>> stocks = {{10, 20, 13, 8, 9, 12, 4}, //10, 20
-                                {7, 1, 5, 3, 6, 4, 19},    //1, 19
-                                {7, 6, 4, 3, 1, 10, 30}};   //4,10
+int main() {
+  vector<vector<int>> stocks = {{10, 20, 13, 8, 9, 12, 4},  // 10, 20
+                                {7, 1, 5, 3, 6, 4, 19},     // 1, 19
+                                {7, 6, 4, 3, 1, 10, 30}};   // 4,10
   int k = 4;
 
   answerClass sol = maxProfitsFromkTransactions(stocks, k);
-  for (auto e : sol.transactions)
-  {
-   cout << e.stockNumber << " " << stocks[e.stockNumber][e.buyDay] << " " << stocks[e.stockNumber][e.sellDay] << "\n";
+  for (auto e : sol.transactions) {
+    cout << e.stockNumber << " " << stocks[e.stockNumber][e.buyDay] << " "
+         << stocks[e.stockNumber][e.sellDay] << "\n";
   }
-  cout<<sol.profit<<"\n";
+  cout << sol.profit << "\n";
 }

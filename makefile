@@ -1,10 +1,2 @@
-all: compile
-
-compile : Stocks.cpp
-	g++ -o Stocks Stocks.cpp 
-	
-
-
-clean:
-	rm -rvf Stocks
-	
+compile:
+	g++ -o Stocks main.cpp 
