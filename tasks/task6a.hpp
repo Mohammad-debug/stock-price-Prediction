@@ -1,3 +1,8 @@
+#include <bits/stdc++.h>
+#include "../utils/answer.hpp"
+#include "../utils/input.hpp"
+using namespace std;
+
 /**
  *
  *  [Problem 2.]
@@ -59,7 +64,7 @@ int opt(int t,
   return dp[t][i];
 }
 
-int maxProfitsFromkTransactions(vector<vector<int>>& stocks, int k) {
+int maxProfitsFromkTransactionsRecursive(vector<vector<int>>& stocks, int k) {
   if (stocks.size() == 0)
     return 0;
 
@@ -72,12 +77,12 @@ int maxProfitsFromkTransactions(vector<vector<int>>& stocks, int k) {
   return opt(k, n - 1, dp, stocks, prevDiff);
 }
 
-int main() {
-  vector<vector<int>> stocks = {{10, 20, 13, 8, 9, 12, 4},
-                                {7, 1, 5, 3, 6, 4, 19},
-                                {7, 6, 4, 3, 1, 10, 3}};
-  int k = 4;
+void buyAndSellFromkTransactionsRecursive() {
+  pair<int, vector<vector<int>>> input = getInputWithK();
 
-  int sol = maxProfitsFromkTransactions(stocks, k);
+  int k = input.first;
+  auto stocks = input.second;
+
+  int sol = maxProfitsFromkTransactionsRecursive(stocks, k);
   cout << sol << endl;
 }

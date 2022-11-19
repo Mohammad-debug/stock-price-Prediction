@@ -4,6 +4,7 @@
 #include "./tasks/task3a.hpp"
 #include "./tasks/task3b.hpp"
 #include "./tasks/task4.hpp"
+#include "./tasks/task6a.hpp"
 
 using namespace std;
 
@@ -34,6 +35,9 @@ int main(int argc, char* argv[]) {
       break;
     case 4:
       buyAndSellFromkTransactions();
+      break;
+    case 6:
+      buyAndSellFromkTransactionsRecursive();
       break;
     default:
       cout << "Bad input.\nTask not found" << endl;

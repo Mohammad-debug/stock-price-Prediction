@@ -89,7 +89,7 @@ answerClass maxProfitsFromkTransactions(vector<vector<int>>& stocks, int k) {
 
       // dp[t][i].profit = max(dp[t][i - 1].profit, maxPossibleProfit); // we
       // dont do anything on
-      if (dp[t][i - 1].profit > maxPossibleProfit) {
+      if (dp[t][i - 1].profit > dp[t][i].profit) {
         dp[t][i] = dp[t - 1][i];
       }
     }

@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+#include "../utils/answer.hpp"
 #include "../utils/input.hpp"
 using namespace std;
 
@@ -22,15 +23,15 @@ using namespace std;
  *
  */
 
-int transactKTimes(vector<vector<int>>& stocks,
-                   vector<answer>& ledger,
-                   int start,
-                   int k) {
+pair<int, vector<answer>> transactKTimes(vector<vector<int>>& stocks,
+                                         int start,
+                                         int k) {
   if (k <= 0)
-    return 0;
+    return pair<int, vector<answer>>{0, vector<answer>{}};
 
   int profit = 0;
   int m = stocks.size(), n = stocks[0].size();
+  vector<answer> transactions;
 
   for (int i = start; i < n - 1; i++) {
     for (int j = i + 1; j < n; j++) {
@@ -38,40 +39,45 @@ int transactKTimes(vector<vector<int>>& stocks,
         auto prices = stocks[l];
 
         // Either do a transaction or don't
-        int p1 =
-            prices[j] - prices[i] + transactKTimes(stocks, ledger, j, k - 1);
-        int p2 = transactKTimes(stocks, ledger, j, k);
+        auto r1 = transactKTimes(stocks, j, k - 1);
+        int currProfit = prices[j] - prices[i];
+        int totalProfit = currProfit + r1.first;
 
-        if (p1 > p2 && p1 > profit && p1 > ledger[k].profit) {
-          ledger[k].profit = p1;
-          ledger[k].stock = l;
-          ledger[k].buyDay = i;
-          ledger[k].sellDay = j;
+        auto r2 = transactKTimes(stocks, j, k);
+
+        if (totalProfit > r2.first && totalProfit > profit) {
+          auto currTransaction = answer();
+          currTransaction.profit = currProfit;
+          // cout << "> " << l << " " << i << " " << j << " " << prices[i] << "
+          // "
+          //      << prices[j] << endl;
+          currTransaction.stock = l;
+          currTransaction.buyDay = i;
+          currTransaction.sellDay = j;
+
+          profit = totalProfit;
+          transactions = r1.second;
+          transactions.push_back(currTransaction);
+        } else if (r2.first > totalProfit && r2.first > profit) {
+          profit = r2.first;
+          transactions = r2.second;
         }
-
-        profit = max({profit, p1, p2});
       }
     }
   }
 
-  return profit;
+  return {profit, transactions};
 }
 
 void buyAndSellFromkTransactions() {
-  pair<int, vector<vector<int>>> input = {
-      3, vector<vector<int>>{{10, 20, 13, 8, 9, 12, 4},  // 10, 20
-                             {7, 1, 5, 3, 6, 4, 19},     // 1, 19
-                             {7, 6, 4, 3, 1, 10, 30}}};  // getInputWithK();
-  auto stocks = input.second;
+  pair<int, vector<vector<int>>> input = getInputWithK();
+
   int k = input.first;
+  auto stocks = input.second;
+  auto result = transactKTimes(stocks, 0, k);
 
-  vector<answer> ledger(k + 1, answer());
-  cout << transactKTimes(stocks, ledger, 0, k) << endl;
-
-  for (int i = k; i >= 1; i--) {
-    auto t = ledger[i];
-
-    if ((i == 1) || (i > 1 && t.buyDay != ledger[i - 1].buyDay))
-      cout << t.stock << " " << t.buyDay << " " << t.sellDay << endl;
+  reverse(result.second.begin(), result.second.end());
+  for (auto t : result.second) {
+    cout << t.stock << " " << t.buyDay << " " << t.sellDay << endl;
   }
 }

@@ -6,7 +6,7 @@ struct answer {
   int buyDay;
   int sellDay;
   int profit = INT_MIN;
-} s;
+};
 
 struct answer2d {
   int stockNumber = 0;
