@@ -64,9 +64,11 @@ int opt(int t,
   return dp[t][i];
 }
 
-int maxProfitsFromkTransactionsRecursive(vector<vector<int>>& stocks, int k) {
-  if (stocks.size() == 0)
-    return 0;
+void buyAndSellFromkTransactionsRecursive() {
+  pair<int, vector<vector<int>>> input = getInputWithK();
+
+  int k = input.first;
+  auto stocks = input.second;
 
   int n = stocks[0].size();
   int m = stocks.size();
@@ -74,15 +76,6 @@ int maxProfitsFromkTransactionsRecursive(vector<vector<int>>& stocks, int k) {
   vector<vector<int>> prevDiff(k + 1, vector<int>(m, INT_MIN));
   vector<vector<int>> dp(k + 1, vector<int>(n, -1));
 
-  return opt(k, n - 1, dp, stocks, prevDiff);
-}
-
-void buyAndSellFromkTransactionsRecursive() {
-  pair<int, vector<vector<int>>> input = getInputWithK();
-
-  int k = input.first;
-  auto stocks = input.second;
-
-  int sol = maxProfitsFromkTransactionsRecursive(stocks, k);
+  int sol = opt(k, n - 1, dp, stocks, prevDiff);
   cout << sol << endl;
 }
