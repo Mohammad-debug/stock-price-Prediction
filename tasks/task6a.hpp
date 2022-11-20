@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
 #include "../utils/answer.hpp"
+#include "../utils/find.hpp"
 #include "../utils/input.hpp"
 using namespace std;
 
@@ -52,6 +53,7 @@ pair<int, answer> opt(int t,
   int maxPossibleProfitStock = -1;
 
   dp[t][i] = opt(t, i - 1, dp, stocks, prevDiff);
+  // dp[t][i].second = answer();
   auto withoutToday = opt(t - 1, i - 1, dp, stocks, prevDiff);
 
   for (int s = 0; s < m; s++) {
@@ -82,7 +84,9 @@ pair<int, answer> opt(int t,
   return dp[t][i];
 }
 
-vector<answer> backtrack(vector<vector<pair<int, answer>>>& dp, int k) {
+vector<answer> backtrack(vector<vector<pair<int, answer>>>& dp,
+                         vector<vector<int>>& stocks,
+                         int t) {
   int i = dp.size() - 1;
   int j = dp[0].size() - 1;
   vector<answer> trs;
@@ -91,8 +95,15 @@ vector<answer> backtrack(vector<vector<pair<int, answer>>>& dp, int k) {
     if (j > 0 && dp[i][j].first == dp[i][j - 1].first)
       j--;
 
+    auto t = dp[i][j].second;
+    // cout << dp[i][j].first << " " << t.stock << " " << t.buyDay << " "
+    //      << t.sellDay << endl;
     trs.push_back(dp[i][j].second);
-    i--, j--;
+    auto next = find(dp, i, j,
+                     dp[i][j].first - (stocks[t.stock][t.sellDay] -
+                                       stocks[t.stock][t.buyDay]));
+    i = next.first;
+    j = next.second;
   }
 
   return trs;
@@ -115,9 +126,19 @@ void buyAndSellFromkTransactionsRecursive() {
       k + 1, vector<pair<int, answer>>(n, {-1, answer()}));
 
   auto sol = opt(k, n - 1, dp, stocks, prevDiff);
+  // auto sol = opt(1, 2, dp, stocks, prevDiff);
 
   // cout << sol.first << endl;
-  auto transactions = backtrack(dp, k);
+
+  // for (int i = 0; i < dp.size(); i++) {
+  //   for (int j = 0; j < dp[i].size(); j++) {
+  //     cout << dp[i][j].first << " ";
+  //   }
+  //   cout << endl;
+  // }
+
+  // cout << endl;
+  auto transactions = backtrack(dp, stocks, k);
 
   reverse(transactions.begin(), transactions.end());
   for (auto t : transactions) {

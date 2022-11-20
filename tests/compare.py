@@ -12,7 +12,7 @@ class c:
     UNDERLINE = '\033[4m'
 
 if sys.argv[1] == sys.argv[2]:
-  print(c.OKGREEN, 'Testcase', sys.argv[3], 'passed', c.ENDC)
+  print(c.OKGREEN, 'Testcase passed for Task', sys.argv[3], c.ENDC)
 else:
-  print(c.FAIL, 'Testcase', sys.argv[3], 'failed \n actual: ', sys.argv[1], '\n', 'expected: ', sys.argv[2], c.ENDC)
+  print(c.FAIL, 'Testcase failed for Task', sys.argv[3], '\n actual: \n', sys.argv[1], '\n', 'expected: \n', sys.argv[2], c.ENDC)
   
