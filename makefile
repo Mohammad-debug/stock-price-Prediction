@@ -7,6 +7,9 @@ run3:compile
 run4:compile
 	./Stocks $(task) < ./tests/test4/input
 
+run5:compile
+	./Stocks $(task) < ./tests/test5/input
+
 test1: compile
 	@ACTUAL=$$(./Stocks $(task) < ./tests/test1/input) ; \
 	EXPECTED=$$(cat ./tests/test1/output) ; \
@@ -25,4 +28,9 @@ test3: compile
 test4: compile
 	@ACTUAL=$$(./Stocks $(task) < ./tests/test4/input) ; \
 	EXPECTED=$$(cat ./tests/test4/output) ; \
+	python3 ./tests/compare.py "$$ACTUAL" "$$EXPECTED" $(task)
+
+test5: compile
+	@ACTUAL=$$(./Stocks $(task) < ./tests/test5/input) ; \
+	EXPECTED=$$(cat ./tests/test5/output) ; \
 	python3 ./tests/compare.py "$$ACTUAL" "$$EXPECTED" $(task)
