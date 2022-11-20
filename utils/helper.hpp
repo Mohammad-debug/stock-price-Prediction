@@ -17,10 +17,8 @@ pair<int, int> find(vector<vector<pair<int, answer>>>& dp,
   return {0, 0};
 }
 
-
 vector<answer> backtrack(vector<vector<pair<int, answer>>>& dp,
-                         vector<vector<int>>& stocks,
-                         int t) {
+                         vector<vector<int>>& stocks) {
   int i = dp.size() - 1;
   int j = dp[0].size() - 1;
   vector<answer> trs;

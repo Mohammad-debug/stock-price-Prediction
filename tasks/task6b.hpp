@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 #include "../utils/answer.hpp"
-#include "../utils/find.hpp"
+#include "../utils/helper.hpp"
 #include "../utils/input.hpp"
 using namespace std;
 
@@ -72,9 +72,6 @@ void buyAndSellFromkTransactionsTabulation() {
           maxPossibleProfit = stocks[s][i] + prevDiff[s].first;
           maxPossibleProfitStock = s;
         }
-
-        // prevDiff[s] = max(prevDiff[s], dp[t - 1][i - 1] - stocks[s][i - 1]);
-        // maxPossibleProfit = max(, );
       }
 
       if (maxPossibleProfit > dp[t][i - 1].first) {
@@ -93,7 +90,7 @@ void buyAndSellFromkTransactionsTabulation() {
     }
   }
 
-  auto transactions = backtrack(dp, stocks, 1);
+  auto transactions = backtrack(dp, stocks);
 
   reverse(transactions.begin(), transactions.end());
   for (auto t : transactions) {

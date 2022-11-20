@@ -48,9 +48,6 @@ pair<int, vector<answer>> transactKTimes(vector<vector<int>>& stocks,
         if (totalProfit > r2.first && totalProfit > profit) {
           auto currTransaction = answer();
           currTransaction.profit = currProfit;
-          // cout << "> " << l << " " << i << " " << j << " " << prices[i] << "
-          // "
-          //      << prices[j] << endl;
           currTransaction.stock = l;
           currTransaction.buyDay = i;
           currTransaction.sellDay = j;
@@ -71,7 +68,6 @@ pair<int, vector<answer>> transactKTimes(vector<vector<int>>& stocks,
 
 void buyAndSellFromkTransactions() {
   pair<int, vector<vector<int>>> input = getInputWithK();
-
   int k = input.first;
   auto stocks = input.second;
   auto result = transactKTimes(stocks, 0, k);

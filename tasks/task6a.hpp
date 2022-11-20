@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 #include "../utils/answer.hpp"
-#include "../utils/find.hpp"
+#include "../utils/helper.hpp"
 #include "../utils/input.hpp"
 using namespace std;
 
@@ -98,19 +98,7 @@ void buyAndSellFromkTransactionsRecursive() {
       k + 1, vector<pair<int, answer>>(n, {-1, answer()}));
 
   auto sol = opt(k, n - 1, dp, stocks, prevDiff);
-  // auto sol = opt(1, 2, dp, stocks, prevDiff);
-
-  // cout << sol.first << endl;
-
-  // for (int i = 0; i < dp.size(); i++) {
-  //   for (int j = 0; j < dp[i].size(); j++) {
-  //     cout << dp[i][j].first << " ";
-  //   }
-  //   cout << endl;
-  // }
-
-  // cout << endl;
-  auto transactions = backtrack(dp, stocks, k);
+  auto transactions = backtrack(dp, stocks);
 
   reverse(transactions.begin(), transactions.end());
   for (auto t : transactions) {

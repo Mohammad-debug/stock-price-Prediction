@@ -1,36 +1,23 @@
 compile:
 	g++ -o Stocks main.cpp
 
-run3:compile
-	./Stocks $(task) < ./tests/test3/input
+run: compile
+	@TEST_PATH="./tests/test$(test)/input" ; \
+	./Stocks $(task) < $$TEST_PATH
 
-run4:compile
-	./Stocks $(task) < ./tests/test4/input
-
-run5:compile
-	./Stocks $(task) < ./tests/test5/input
-
-test1: compile
-	@ACTUAL=$$(./Stocks $(task) < ./tests/test1/input) ; \
-	EXPECTED=$$(cat ./tests/test1/output) ; \
+test: compile
+	@TEST_INPUT_PATH="./tests/test$(test)/input" ; \
+	TEST_OUTPUT_PATH="./tests/test$(test)/output" ; \
+	ACTUAL=$$(./Stocks $(task) < $$TEST_INPUT_PATH) ; \
+	EXPECTED=$$(cat $$TEST_OUTPUT_PATH) ; \
 	python3 ./tests/compare.py "$$ACTUAL" "$$EXPECTED" $(task)
 
-test2: compile
-	@ACTUAL=$$(./Stocks $(task) < ./tests/test2/input) ; \
-	EXPECTED=$$(cat ./tests/test2/output) ; \
-	python3 ./tests/compare.py "$$ACTUAL" "$$EXPECTED" $(task)
+testAll: compile
+	@echo Running tests.
+	$(MAKE) test test=3 task=6a
+	$(MAKE) test test=4 task=6a
+	$(MAKE) test test=5 task=6a
 
-test3: compile
-	@ACTUAL=$$(./Stocks $(task) < ./tests/test3/input) ; \
-	EXPECTED=$$(cat ./tests/test3/output) ; \
-	python3 ./tests/compare.py "$$ACTUAL" "$$EXPECTED" $(task)
-
-test4: compile
-	@ACTUAL=$$(./Stocks $(task) < ./tests/test4/input) ; \
-	EXPECTED=$$(cat ./tests/test4/output) ; \
-	python3 ./tests/compare.py "$$ACTUAL" "$$EXPECTED" $(task)
-
-test5: compile
-	@ACTUAL=$$(./Stocks $(task) < ./tests/test5/input) ; \
-	EXPECTED=$$(cat ./tests/test5/output) ; \
-	python3 ./tests/compare.py "$$ACTUAL" "$$EXPECTED" $(task)
+	$(MAKE) test test=3 task=6b
+	$(MAKE) test test=4 task=6b
+	$(MAKE) test test=5 task=6b
