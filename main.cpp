@@ -4,6 +4,7 @@
 #include "./tasks/task3a.hpp"
 #include "./tasks/task3b.hpp"
 #include "./tasks/task4.hpp"
+#include "./tasks/task5.hpp"
 #include "./tasks/task6a.hpp"
 #include "./tasks/task6b.hpp"
 
@@ -36,6 +37,9 @@ int main(int argc, char* argv[]) {
       break;
     case 4:
       buyAndSellFromkTransactions();
+      break;
+    case 5:
+      buyAndSellFromkTransactionsDP();
       break;
     case 6:
       buyAndSellFromkTransactionsRecursive();

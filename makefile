@@ -2,6 +2,9 @@ compile:
 	g++ -o Stocks main.cpp
 
 run: compile
+	./Stocks $(task)
+
+run_test: compile
 	@TEST_PATH="./tests/test$(test)/input" ; \
 	./Stocks $(task) < $$TEST_PATH
 
@@ -14,6 +17,11 @@ test: compile
 
 testAll: compile
 	@echo Running tests.
+	
+	$(MAKE) test test=3 task=5
+	$(MAKE) test test=4 task=5
+	$(MAKE) test test=5 task=5
+	
 	$(MAKE) test test=3 task=6a
 	$(MAKE) test test=4 task=6a
 	$(MAKE) test test=5 task=6a
