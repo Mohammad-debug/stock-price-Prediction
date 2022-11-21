@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+#include <chrono>
 #include "./tasks/task1.hpp"
 #include "./tasks/task2.hpp"
 #include "./tasks/task3a.hpp"
@@ -22,6 +23,10 @@ int main(int argc, char* argv[]) {
   auto it = std::find(tasks.begin(), tasks.end(), task);
   auto index = distance(tasks.begin(), it);
 
+  // Use auto keyword to avoid typing long
+  // type definitions to get the timepoint
+  // at this instant use function now()
+  auto start = std::chrono::high_resolution_clock::now();
   switch (index) {
     case 0:
       bruteForceBuyAndSell();
@@ -51,6 +56,12 @@ int main(int argc, char* argv[]) {
       cout << "Bad input.\nTask not found" << endl;
       return -1;
   }
+  auto stop = std::chrono::high_resolution_clock::now();
+  auto duration =
+      std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
 
+  // To get the value of duration use the count()
+  // member function on the duration object
+  cout << duration.count() << endl;
   return 0;
 }

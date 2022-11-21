@@ -21,33 +21,31 @@ using namespace std;
  *
  */
 
-int dp(vector<int>& prices,
-       vector<int>& memo,
-       struct answer& s,
-       int stock,
-       int sellDay,
-       int i) {
-  if (i < 0 || i >= memo.size())
-    return 0;
+int topdown_dp_find_stock(int stock,
+                          vector<int> prices,
+                          vector<pair<int, int>>& memo,
+                          int i,
+                          answer& sol) {
+  if (i >= prices.size())
+    return INT_MIN;
 
-  if (memo[i] != -1)
-    return memo[i];
-
-  if (prices[sellDay] < prices[i])
-    sellDay = i;
-
-  // Either do no transaction today or do a transaction
-  int profit = prices[sellDay] - prices[i];
-  memo[i] = max(profit, dp(prices, memo, s, stock, sellDay, i - 1));
-
-  if (s.profit < memo[i]) {
-    s.stock = stock;
-    s.buyDay = i;
-    s.sellDay = sellDay;
-    s.profit = memo[i];
+  memo[i] = memo[i - 1];
+  if (memo[i].first > prices[i]) {
+    memo[i].first = prices[i];
+    memo[i].second = i;
   }
 
-  return memo[i];
+  int curentProfit = prices[i] - memo[i].first;
+  int otherProfit = topdown_dp_find_stock(stock, prices, memo, i + 1, sol);
+
+  if (curentProfit > otherProfit && curentProfit > sol.profit) {
+    sol.stock = stock;
+    sol.buyDay = memo[i].second;
+    sol.sellDay = i;  // sell day index;
+    sol.profit = curentProfit;
+  }
+
+  return max(curentProfit, otherProfit);
 }
 
 void dynamicMemoizedBuyAndSell() {
@@ -55,12 +53,12 @@ void dynamicMemoizedBuyAndSell() {
   int m = stocks.size(), n = stocks[0].size();
 
   struct answer s;
-  int profit;
 
   for (int i = 0; i < m; i++) {
     auto prices = stocks[i];
-    vector<int> memo(n, -1);
-    profit = max(profit, dp(prices, memo, s, i, n - 1, n - 2));
+    vector<pair<int, int>> memo(n);
+    memo[0] = pair<int, int>{prices[0], 0};
+    topdown_dp_find_stock(i, prices, memo, 1, s);
   }
 
   cout << s.stock << " " << s.buyDay << " " << s.sellDay << endl;

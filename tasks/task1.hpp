@@ -32,7 +32,10 @@ void bruteForceBuyAndSell() {
 
     for (int j = 0; j < n - 1; j++) {
       for (int k = j + 1; k < n; k++) {
+        // Calculate profit from buying stock i on day j and selling on day k
         int profit = prices[k] - prices[j];
+
+        // If profit exceeds the previous max profit, record as answer
         if (profit > s.profit) {
           s.profit = profit;
           s.stock = i;

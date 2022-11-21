@@ -42,8 +42,8 @@ void greedyBuyAndSell() {
         // whenever we have a stock price greater than minimum or our buyed
         // stock we see if we get maximum profit from selling it on current day;
         // if yes, we update/store the answer
-        int profit = max(prices[j] - prices[buyDay], s.profit);
-        if (s.profit < profit) {
+        int profit = prices[j] - prices[buyDay];
+        if (profit > s.profit) {
           s.stock = i;
           s.buyDay = buyDay;
           s.sellDay = j;

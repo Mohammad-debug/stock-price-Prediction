@@ -83,7 +83,6 @@ pair<int, answer> opt(int t,
 
 void buyAndSellFromkTransactionsRecursive() {
   pair<int, vector<vector<int>>> input = getInputWithK();
-
   int k = input.first;
   auto stocks = input.second;
 

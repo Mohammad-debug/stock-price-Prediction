@@ -34,6 +34,8 @@ vector<answer> backtrack(vector<vector<pair<int, answer>>>& dp,
     auto next = find(dp, i, j,
                      dp[i][j].first - (stocks[t.stock][t.sellDay] -
                                        stocks[t.stock][t.buyDay]));
+    if (i == next.first && j == next.second)
+      break;
     i = next.first;
     j = next.second;
   }
