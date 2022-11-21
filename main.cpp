@@ -9,6 +9,7 @@
 #include "./tasks/task6a.hpp"
 #include "./tasks/task6b.hpp"
 #include "./tasks/task7.hpp"
+#include "./tasks/task8.hpp"
 
 using namespace std;
 
@@ -19,7 +20,7 @@ int main(int argc, char* argv[]) {
   }
 
   string task = argv[1];
-  vector<string> tasks = {"1", "2", "3a", "3b", "4", "5", "6a", "6b", "7"};
+  vector<string> tasks = {"1", "2", "3a", "3b", "4", "5", "6a", "6b", "7", "8"};
 
   auto it = std::find(tasks.begin(), tasks.end(), task);
   auto index = distance(tasks.begin(), it);
@@ -55,6 +56,9 @@ int main(int argc, char* argv[]) {
       break;
     case 8:
       bruteForceBuyAndSellWithCooldown();
+      break;
+    case 9:
+      transactKTimesWithCooldownDP();
       break;
     default:
       cout << "Bad input.\nTask not found" << endl;

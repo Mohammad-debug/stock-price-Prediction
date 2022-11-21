@@ -5,7 +5,7 @@ using namespace std;
 
 /**
  *
- *  [Problem 7.]
+ *  [Problem 3.]
  *
  *  Given a matrix A of m × n integers (non-negative) representing the predicted
  *  prices of m stocks for n days and an integer c (positive), find the maximum
@@ -15,7 +15,7 @@ using namespace std;
  *
  *  [Alg 7.]
  *
- *  Design a Θ(m ∗ 2n) time brute force algorithm for solving Problem3
+ *  Design a Θ(m ∗ 2^n) time brute force algorithm for solving Problem3
  *
  *  [Task 7.]
  *
