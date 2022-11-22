@@ -17,7 +17,7 @@ using namespace std;
  *
  *  Design a Θ(m ∗ n^2) time dynamic programming algorithm for solving Problem3
  *
- *  [Task 7.]
+ *  [Task 8.]
  *
  *  Give an implementation of Alg8.
  *

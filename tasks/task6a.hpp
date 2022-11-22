@@ -50,7 +50,6 @@ pair<int, answer> opt(int t,
   int maxPossibleProfitStock = -1;
 
   dp[t][i] = opt(t, i - 1, dp, stocks, prevDiff);
-  // dp[t][i].second = answer();
   auto withoutToday = opt(t - 1, i - 1, dp, stocks, prevDiff);
 
   for (int s = 0; s < m; s++) {

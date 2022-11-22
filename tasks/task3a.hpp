@@ -22,7 +22,7 @@ using namespace std;
  */
 
 int topdown_dp_find_stock(int stock,
-                          vector<int> prices,
+                          vector<int>& prices,
                           vector<pair<int, int>>& memo,
                           int i,
                           answer& sol) {

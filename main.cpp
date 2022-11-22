@@ -10,7 +10,6 @@
 #include "./tasks/task6b.hpp"
 #include "./tasks/task7.hpp"
 #include "./tasks/task8.hpp"
-#include "./tasks/task9b.hpp"
 
 using namespace std;
 
@@ -21,15 +20,13 @@ int main(int argc, char* argv[]) {
   }
 
   string task = argv[1];
-  vector<string> tasks = {"1",  "2",  "3a", "3b", "4",  "5",
-                          "6a", "6b", "7",  "8",  "9a", "9b"};
+  vector<string> tasks = {
+      "1", "2", "3a", "3b", "4", "5", "6a", "6b", "7", "8",
+  };
 
   auto it = std::find(tasks.begin(), tasks.end(), task);
   auto index = distance(tasks.begin(), it);
 
-  // Use auto keyword to avoid typing long
-  // type definitions to get the timepoint
-  // at this instant use function now()
   auto start = std::chrono::high_resolution_clock::now();
   switch (index) {
     case 0:
@@ -62,12 +59,6 @@ int main(int argc, char* argv[]) {
     case 9:
       transactKTimesWithCooldownDP();
       break;
-    case 10:
-      transactKTimesWithCooldownDP();
-      break;
-    case 11:
-      transactKTimesWithCooldownDPOptimizedTabulation();
-      break;
     default:
       cout << "Bad input.\nTask not found" << endl;
       return -1;
@@ -76,6 +67,7 @@ int main(int argc, char* argv[]) {
   auto duration =
       std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
 
-  cout << duration.count() << endl;
+  // The following code is to print duration of execution (in milliseconds)
+  // cout << duration.count() << endl;
   return 0;
 }
